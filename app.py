@@ -82,26 +82,28 @@ def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
             hr1_text = line.replace("HR1:", "").strip()
             if hr1_text:
                 hr1_tts = gTTS(hr1_text, lang='en', slow=False)  # Default TTS for HR1
-                hr1_tts.save("hr1_temp.mp3")  # Save temporary audio for HR1
-                hr1_audio = AudioSegment.from_mp3("hr1_temp.mp3")  # Load the temporary audio
+                # Use BytesIO to save audio in memory
+                hr1_audio_buffer = BytesIO()
+                hr1_tts.save(hr1_audio_buffer)
+                hr1_audio_buffer.seek(0)  # Move to the start of the BytesIO buffer
+                hr1_audio = AudioSegment.from_mp3(hr1_audio_buffer)  # Load the temporary audio
                 combined_audio += hr1_audio  # Concatenate HR1 audio
         elif line.startswith("HR2:"):
             hr2_text = line.replace("HR2:", "").strip()
             if hr2_text:
                 hr2_tts = gTTS(hr2_text, lang='en', tld='co.in', slow=False)  # Indian accent TTS for HR2
-                hr2_tts.save("hr2_temp.mp3")  # Save temporary audio for HR2
-                hr2_audio = AudioSegment.from_mp3("hr2_temp.mp3")  # Load the temporary audio
+                # Use BytesIO to save audio in memory
+                hr2_audio_buffer = BytesIO()
+                hr2_tts.save(hr2_audio_buffer)
+                hr2_audio_buffer.seek(0)  # Move to the start of the BytesIO buffer
+                hr2_audio = AudioSegment.from_mp3(hr2_audio_buffer)  # Load the temporary audio
                 combined_audio += hr2_audio  # Concatenate HR2 audio
 
     # Save the combined audio as a single output file
     combined_audio.export(output_file, format="mp3")  # Export combined audio
     print(f"Combined audio feedback saved as {output_file}")
 
-    # Clean up temporary audio files
-    if os.path.exists("hr1_temp.mp3"):
-        os.remove("hr1_temp.mp3")  # Remove HR1 temporary file
-    if os.path.exists("hr2_temp.mp3"):
-        os.remove("hr2_temp.mp3")  # Remove HR2 temporary file
+    return output_file  # Return the output file path or handle it as needed
 
 
 @app.route('/')
