@@ -9,7 +9,7 @@ import base64
 import io
 from io import BytesIO
 from pydub import AudioSegment
-#AudioSegment.converter = r"C:\Users\Hp840\OneDrive\Desktop\ffmpeg-7.1.tar.xz"
+import shutil
 
 app = Flask(__name__)
 
@@ -71,22 +71,20 @@ def evaluate_resume(resume_text, job_role, experience_level):
 
 def text_to_speech_mixed(hr_feedback):
     lines = hr_feedback.split('\n')
-    combined_audio = AudioSegment.empty()
+    audio_files = []
 
     for line in lines:
         if line.startswith("HR1:") or line.startswith("HR2:"):
             hr_text = line.split(":", 1)[1].strip()
             if hr_text:
                 tts = gTTS(hr_text, lang='en', tld='com' if line.startswith("HR1:") else 'co.in', slow=False)
-                mp3_fp = BytesIO()
-                tts.write_to_fp(mp3_fp)
-                mp3_fp.seek(0)
-                audio = AudioSegment.from_mp3(mp3_fp)
-                combined_audio += audio
+                # Use tempfile to create a temporary file
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as temp_file:
+                    audio_file_path = temp_file.name  # Get the name of the temporary file
+                    tts.save(audio_file_path)
+                    audio_files.append(audio_file_path)
 
-    output_buffer = BytesIO()
-    combined_audio.export(output_buffer, format="mp3")
-    return output_buffer.getvalue()
+    return audio_files[0] if audio_files else None
 
 
 @app.route('/')
@@ -110,7 +108,19 @@ def evaluate():
         return jsonify({'error': 'Invalid file format'})
 
     evaluation = evaluate_resume(resume_text, job_role, experience_level)
-    audio_data = text_to_speech_mixed(evaluation)
+    audio_file_path = text_to_speech_mixed(evaluation)
+
+    # Check if audio_file_path is None
+    if audio_file_path is None:
+        return jsonify({'error': 'Audio file could not be created'})
+
+    # Read the audio file as bytes
+    with open(audio_file_path, 'rb') as audio_file:
+        audio_data = audio_file.read()
+
+    # Ensure audio_data is bytes
+    if isinstance(audio_data, str):
+        return jsonify({'error': 'Audio data is not in bytes format'})
 
     # Encode audio data to base64
     audio_base64 = base64.b64encode(audio_data).decode('utf-8')

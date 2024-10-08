@@ -48,8 +48,8 @@
                 <span class="btn-icon">🔥</span>
             </button>
         </form>
+        <div id="loading" class="hidden">Loading...</div> <!-- Loading indicator -->
         <div id="result" class="hidden">
-           
             <h3>Listen to the Evaluation</h3>
             <audio id="evaluation-audio" controls></audio> 
             <h2>The HR conversation 👀 </h2>
@@ -351,6 +351,13 @@
         .btn-icon {
             font-size: 1.2rem;
         }
+
+        #loading {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 1rem;
+        }
     </style>
 
     <script>
@@ -387,6 +394,7 @@
         document.getElementById('resume-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
+            document.getElementById('loading').classList.remove('hidden'); // Show loading indicator
 
             fetch('/evaluate', {
                 method: 'POST',
@@ -394,16 +402,19 @@
             })
             .then(response => response.json())
             .then(data => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading indicator
                 document.getElementById('result').classList.remove('hidden');
                 displayEvaluationChat(data.evaluation);
                 
                 // Handle audio playback
                 const audioElement = document.getElementById('evaluation-audio');
-                audioElement.src = data.audio_url;
-                audioElement.play();
+                audioElement.src = 'data:audio/mp3;base64,' + data.audio; // Set the audio source to base64
+                audioElement.play(); // Play the audio
             })
             .catch(error => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading indicator
                 console.error('Error:', error);
+                alert('An error occurred while processing your request. Please try again.'); // User feedback
             });
         });
 
