@@ -410,15 +410,11 @@
                 document.getElementById('result').classList.remove('hidden');
                 displayEvaluationChat(data.evaluation);
                 
-                // Handle audio playback
-                const audioElement = document.getElementById('evaluation-audio');
-                audioElement.src = 'data:audio/mp3;base64,' + data.audio; // Set the audio source to base64
-                audioElement.play(); // Play the audio
+                
             })
             .catch(error => {
                 document.getElementById('loading').classList.add('hidden'); // Hide loading indicator
-                console.error('Error:', error);
-                alert('An error occurred while processing your request. Please try again.'); // User feedback
+                
             });
         });
 
