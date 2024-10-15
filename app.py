@@ -83,7 +83,7 @@ def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
             if hr1_text:
                 hr1_tts = gTTS(hr1_text, lang='en', slow=False)  # Default TTS for HR1
                 # Use a temporary file to save audio
-                with tempfile.NamedTemporaryFile(delete=True, suffix='.mp3') as hr1_temp_file:
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as hr1_temp_file:
                     hr1_tts.save(hr1_temp_file.name)  # Save to the temporary file
                     hr1_audio = AudioSegment.from_mp3(hr1_temp_file.name)  # Load the temporary audio
                     combined_audio += hr1_audio  # Concatenate HR1 audio
@@ -92,7 +92,7 @@ def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
             if hr2_text:
                 hr2_tts = gTTS(hr2_text, lang='en', tld='co.in', slow=False)  # Indian accent TTS for HR2
                 # Use a temporary file to save audio
-                with tempfile.NamedTemporaryFile(delete=True, suffix='.mp3') as hr2_temp_file:
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as hr2_temp_file:
                     hr2_tts.save(hr2_temp_file.name)  # Save to the temporary file
                     hr2_audio = AudioSegment.from_mp3(hr2_temp_file.name)  # Load the temporary audio
                     combined_audio += hr2_audio  # Concatenate HR2 audio
