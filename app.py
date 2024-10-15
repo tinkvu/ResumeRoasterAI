@@ -68,7 +68,7 @@ def evaluate_resume(resume_text, job_role, experience_level):
 
 
 # Comment out the text_to_speech_mixed function
-
+"""
 def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
     # Split the feedback into lines
     lines = hr_feedback.split('\n')
@@ -103,7 +103,7 @@ def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
 
     return output_file  # Return the output file path or handle it as needed
 
-
+"""
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -125,6 +125,7 @@ def evaluate():
         return jsonify({'error': 'Invalid file format'})
 
     evaluation = evaluate_resume(resume_text, job_role, experience_level)
+   """
     audio_file_path = text_to_speech_mixed(evaluation)
 
     # Check if audio_file_path is None
@@ -141,10 +142,10 @@ def evaluate():
 
     # Encode audio data to base64
     audio_base64 = base64.b64encode(audio_data).decode('utf-8')
-
+    """
     return jsonify({
         'evaluation': evaluation,
-        'audio': audio_base64
+        #'audio': audio_base64
     })
 
 #if __name__ == '__main__':
