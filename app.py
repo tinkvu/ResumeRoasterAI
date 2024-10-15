@@ -8,15 +8,15 @@ import tempfile
 import base64
 import io
 from io import BytesIO
-from pydub import AudioSegment
+#from pydub import AudioSegment
 import shutil
 
 app = Flask(__name__)
 
 # Set up Groq client
 
-#client = groq.Groq(api_key=os.environ["GROQ_API_KEY"])
-client = groq.Groq(api_key="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")
+client = groq.Groq(api_key=os.environ["GROQ_API_KEY"])
+
 
 def extract_text_from_pdf(file):
     pdf_reader = PyPDF2.PdfReader(file)
