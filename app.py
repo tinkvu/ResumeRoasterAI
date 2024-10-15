@@ -67,43 +67,8 @@ def evaluate_resume(resume_text, job_role, experience_level):
     return hr_conversation
 
 
-# Comment out the text_to_speech_mixed function
-"""
-def text_to_speech_mixed(hr_feedback, output_file="hr_feedback_combined.mp3"):
-    # Split the feedback into lines
-    lines = hr_feedback.split('\n')
 
-    # Initialize an empty AudioSegment to store the combined audio
-    combined_audio = AudioSegment.empty()
 
-    # Loop through each line, generate audio based on HR1 or HR2, and concatenate
-    for line in lines:
-        if line.startswith("HR1:"):
-            hr1_text = line.replace("HR1:", "").strip()
-            if hr1_text:
-                hr1_tts = gTTS(hr1_text, lang='en', slow=False)  # Default TTS for HR1
-                # Use a temporary file to save audio
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as hr1_temp_file:
-                    hr1_tts.save(hr1_temp_file.name)  # Save to the temporary file
-                    hr1_audio = AudioSegment.from_mp3(hr1_temp_file.name)  # Load the temporary audio
-                    combined_audio += hr1_audio  # Concatenate HR1 audio
-        elif line.startswith("HR2:"):
-            hr2_text = line.replace("HR2:", "").strip()
-            if hr2_text:
-                hr2_tts = gTTS(hr2_text, lang='en', tld='co.in', slow=False)  # Indian accent TTS for HR2
-                # Use a temporary file to save audio
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as hr2_temp_file:
-                    hr2_tts.save(hr2_temp_file.name)  # Save to the temporary file
-                    hr2_audio = AudioSegment.from_mp3(hr2_temp_file.name)  # Load the temporary audio
-                    combined_audio += hr2_audio  # Concatenate HR2 audio
-
-    # Save the combined audio as a single output file
-    combined_audio.export(output_file, format="mp3")  # Export combined audio
-    print(f"Combined audio feedback saved as {output_file}")
-
-    return output_file  # Return the output file path or handle it as needed
-
-"""
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -125,24 +90,7 @@ def evaluate():
         return jsonify({'error': 'Invalid file format'})
 
     evaluation = evaluate_resume(resume_text, job_role, experience_level)
-   """
-    audio_file_path = text_to_speech_mixed(evaluation)
-
-    # Check if audio_file_path is None
-    if audio_file_path is None:
-        return jsonify({'error': 'Audio file could not be created'})
-
-    # Read the audio file as bytes
-    with open(audio_file_path, 'rb') as audio_file:
-        audio_data = audio_file.read()
-
-    # Ensure audio_data is bytes
-    if isinstance(audio_data, str):
-        return jsonify({'error': 'Audio data is not in bytes format'})
-
-    # Encode audio data to base64
-    audio_base64 = base64.b64encode(audio_data).decode('utf-8')
-    """
+   
     return jsonify({
         'evaluation': evaluation,
         #'audio': audio_base64
