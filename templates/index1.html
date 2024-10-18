@@ -97,6 +97,19 @@
             </form>
         </div>
     </div>
+    <div id="loading" class="hidden">
+
+            They have started talking about your resume 👀 
+
+        </div> <!-- Loading indicator -->
+
+        <div id="result" class="hidden">
+
+        
+            <h2>The HR conversation 👀 </h2>
+
+            <div id="evaluation-chat"></div>
+        </div>
 
     <style>
         /* General Styling */
@@ -385,7 +398,13 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(255, 75, 43, 0.3);
         }
-
+        #loading {
+            font-size: 1.5rem;
+            color: #45a049;
+            text-align: center;
+            margin-top: 1rem;
+            font-family: 'Arial',
+        }
         /* Keyframes */
         @keyframes textGradient {
             0% {
