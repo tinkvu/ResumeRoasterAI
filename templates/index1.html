@@ -90,9 +90,9 @@
                     </select>
                 </div>
 
-                <button type="submit" class="submit-button">
-                    <span class="button-text">Start Roasting</span>
-                    <span class="button-icon">🔥</span>
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Start Roasting</span>
+                    <span class="btn-icon">🔥</span>
                 </button>
             </form>
         </div>
@@ -413,6 +413,136 @@
                 transform: translateY(-10px);
             }
         }
+        
     </style>
+    <script>
+
+        document.getElementById('try-now-btn').addEventListener('click', function() {
+
+            document.querySelector('.landing-page').style.display = 'none';
+
+            document.querySelector('.container').classList.remove('hidden');
+
+        });
+
+
+
+        function displayEvaluationChat(evaluationText) {
+
+            const chatContainer = document.getElementById('evaluation-chat');
+
+            chatContainer.innerHTML = '';
+
+
+
+            const messages = evaluationText.split('\n');
+
+            messages.forEach(message => {
+
+                if (message.trim() !== '') {
+
+                    const [hr, text] = message.split(':');
+
+                    const messageDiv = document.createElement('div');
+
+                    messageDiv.className = `chat-message ${hr.toLowerCase()}`;
+
+                    
+
+                    const iconDiv = document.createElement('div');
+
+                    iconDiv.className = `chat-icon ${hr.toLowerCase()}`;
+
+
+
+                    const bubbleDiv = document.createElement('div');
+
+                    bubbleDiv.className = 'chat-bubble';
+
+                    bubbleDiv.textContent = text.trim();
+
+
+
+                    messageDiv.appendChild(iconDiv);
+
+                    messageDiv.appendChild(bubbleDiv);
+
+                    chatContainer.appendChild(messageDiv);
+
+                }
+
+            });
+
+        }
+
+
+
+        document.getElementById('resume-form').addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            document.getElementById('loading').classList.remove('hidden'); // Show loading indicator
+
+
+
+            fetch('/evaluate', {
+
+                method: 'POST',
+
+                body: formData
+
+            })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                document.getElementById('loading').classList.add('hidden'); // Hide loading indicator
+
+                document.getElementById('result').classList.remove('hidden');
+
+                displayEvaluationChat(data.evaluation);
+
+                
+
+                
+
+            })
+
+            .catch(error => {
+
+                document.getElementById('loading').classList.add('hidden'); // Hide loading indicator
+
+                
+
+            });
+
+        });
+
+
+
+        document.getElementById('resume').addEventListener('change', function(e) {
+
+            const fileName = e.target.files[0].name;
+
+            document.querySelector('.file-name').textContent = fileName;
+
+        });
+
+    </script>
+
+    
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
