@@ -71,7 +71,7 @@ def evaluate_resume(resume_text, job_role, experience_level):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index1.html')
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate():
