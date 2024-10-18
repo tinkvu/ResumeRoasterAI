@@ -28,6 +28,9 @@
                     </button>
                     <p class="guarantee">100% Confidential | Instant Results</p>
                 </div>
+                <a href="https://www.producthunt.com/posts/roastcv?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-roastcv" target="_blank">
+                    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=509694&theme=neutral" alt="RoastCV" style="width: 200px; height: 54px;" width="200" height="54" />
+                </a>
                 <div class="stats">
                     <div class="stat-item">
                         <span class="stat-number">50K+</span>
@@ -60,41 +63,47 @@
         </div>
     </div>
 
-    <div id="upload-section" class="container hidden">
+    <div class="container hidden">
         <div class="upload-container">
-            <h2>Let's Roast Your Resume</h2>
-            <form id="resume-form" class="upload-form">
+            <h1>roastcv</h1>
+            <h2>Upload your resume<br>Add your job<br>Hear what they're saying!</h2>
+            <form id="resume-form">
                 <div class="form-group file-upload">
-                    <div class="upload-area" id="dropZone">
-                        <svg class="upload-icon" viewBox="0 0 24 24">
-                            <path d="M12 2L20 10H16V18H8V10H4L12 2Z"/>
-                        </svg>
-                        <p>Drag your resume here or <span class="browse-text">browse</span></p>
-                        <input type="file" id="resume" name="resume" accept=".pdf,.docx" required>
+                    <label for="resume" class="file-upload-label">
+                        <span class="file-upload-icon">📄</span>
+                        <span class="file-upload-text">Upload Resume (PDF or DOCX)</span>
+                    </label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.docx" required>
+                    <span class="file-name"></span>
+                </div>
+                <div class="form-group">
+                    <label for="job_role">Job Role:</label>
+                    <input type="text" id="job_role" name="job_role" required autocomplete="off">
+                    <span class="input-highlight"></span>
+                </div>
+                <div class="form-group">
+                    <label for="experience_level">Experience Level:</label>
+                    <div class="select-wrapper">
+                        <select id="experience_level" name="experience_level" required>
+                            <option value="" disabled selected>Select your experience</option>
+                            <option value="Entry-level">Entry-level</option>
+                            <option value="Mid-level">Mid-level</option>
+                            <option value="Senior">Senior</option>
+                        </select>
                     </div>
-                    <div class="file-info"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="job_role">Dream Job</label>
-                    <input type="text" id="job_role" name="job_role" required placeholder="e.g. Senior Developer">
-                </div>
-
-                <div class="form-group">
-                    <label for="experience_level">Your Level</label>
-                    <select id="experience_level" name="experience_level" required>
-                        <option value="" disabled selected>Select experience level</option>
-                        <option value="Entry-level">Entry-level (0-2 years)</option>
-                        <option value="Mid-level">Mid-level (3-5 years)</option>
-                        <option value="Senior">Senior (6+ years)</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="submit-button">
-                    <span class="button-text">Start Roasting</span>
-                    <span class="button-icon">🔥</span>
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Evaluate Resume</span>
+                    <span class="btn-icon">🔥</span>
                 </button>
             </form>
+            <div id="loading" class="hidden">
+                They have started talking about your resume 👀
+            </div>
+            <div id="result" class="hidden">
+                <h2>The HR conversation 👀</h2>
+                <div id="evaluation-chat"></div>
+            </div>
         </div>
     </div>
 
@@ -194,110 +203,11 @@
             color: var(--light);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(255, 75, 43, 0.3);
-        }
-
-        .flame {
-            font-size: 1.4rem;
-            animation: flame 1s ease-in-out infinite;
-        }
-
-        .stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-            position: relative;
-        }
-
-        .mockup {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            width: 400px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .chat-preview {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .message {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .message.hr2 {
-            flex-direction: row-reverse;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .bubble {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 15px;
-            max-width: 70%;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes flame {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        @keyframes textGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -306,36 +216,84 @@
             padding: 2rem;
         }
 
-        .upload-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .upload-area {
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(131, 7, 255, 0.05);
             border: 2px dashed var(--accent);
             border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .upload-area:hover {
-            background: rgba(131, 7, 255, 0.05);
+        .file-upload-label:hover {
+            background: rgba(131, 7, 255, 0.1);
         }
 
-        .upload-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-            fill: var(--accent);
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .browse-text {
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 2rem 0;
             color: var(--accent);
-            text-decoration: underline;
+        }
+
+        #evaluation-chat {
+            margin-top: 2rem;
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .hidden {
@@ -353,98 +311,78 @@
                 font-size: 2.5rem;
             }
 
-            .stats {
-                justify-content: center;
+            .container {
+                padding: 1rem;
             }
+        }
 
-            .hero-image {
-                margin-top: 2rem;
-            }
-
-            .mockup {
-                width: 100%;
-                max-width: 400px;
-            }
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 
     <script>
-        document.getElementById('try-now-btn').addEventListener('click', () => {
+        document.getElementById('try-now-btn').addEventListener('click', function() {
             document.querySelector('.landing-page').style.display = 'none';
-            document.getElementById('upload-section').classList.remove('hidden');
+            document.querySelector('.container').classList.remove('hidden');
         });
 
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('resume');
-        const fileInfo = document.querySelector('.file-info');
-
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
+        document.getElementById('resume').addEventListener('change', function(e) {
+            const fileName = e.target.files[0].name;
+            document.querySelector('.file-name').textContent = fileName;
         });
 
-        function preventDefaults(e) {
+        function displayEvaluationChat(evaluationText) {
+            const chatContainer = document.getElementById('evaluation-chat');
+            chatContainer.innerHTML = '';
+
+            const messages = evaluationText.split('\n');
+            messages.forEach(message => {
+                if (message.trim() !== '') {
+                    const [hr, text] = message.split(':');
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `chat-message ${hr.toLowerCase()}`;
+                    
+                    const iconDiv = document.createElement('div');
+                    iconDiv.className = `chat-icon ${hr.toLowerCase()}`;
+
+                    const bubbleDiv = document.createElement('div');
+                    bubbleDiv.className = 'chat-bubble';
+                    bubbleDiv.textContent = text.trim();
+
+                    messageDiv.appendChild(iconDiv);
+                    messageDiv.appendChild(bubbleDiv);
+                    chatContainer.appendChild(messageDiv);
+                }
+            });
+        }
+
+        document.getElementById('resume-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-        }
+            const formData = new FormData(this);
+            document.getElementById('loading').classList.remove('hidden');
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            dropZone.classList.add('highlight');
-        }
-
-        function unhighlight(e) {
-            dropZone.classList.remove('highlight');
-        }
-
-        dropZone.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
-        }
-
-        function handleFiles(files) {
-            if (files[0]) {
-                fileInput.files = files;
-                updateFileInfo(files[0]);
-            }
-        }
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files[0]) {
-                updateFileInfo(e.target.files[0]);
-            }
-        });
-
-        function updateFileInfo(file) {
-            fileInfo.textContent = `Selected: ${file.name}`;
-        }
-
-        document.getElementById('resume-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            
-            try {
-                const response = await fetch('/evaluate', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                // Handle the response
-                console.log(data);
-            } catch (error) {
+            fetch('/evaluate', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+                displayEvaluationChat(data.evaluation);
+            })
+            .catch(error => {
+                document.getElementById('loading').classList.add('hidden');
                 console.error('Error:', error);
-            }
+            });
         });
     </script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
