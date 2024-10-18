@@ -41,11 +41,10 @@ def evaluate_resume(resume_text, job_role, experience_level):
 
         Now, start a humorous conversation between 2 HRs talking to each other where you provide critical feedback, roast the resume, and suggest improvements.
         -Make the conversations in a communicative tone
-        -Do not use markdown, emojis, or other formatting in your responses. Respond in a way easily spoken by text-to-speech software
+        -Do not use markdown any other formatting in your responses.
         -Do not write anything in braces
-        -Do not use any emotions like (laughs) in your responses
         -The output should be like - "HR1: <text>\nHR2: <text>\n...."
-        -Do not forget to suggest the improvements
+        -Do not forget to suggest the improvements to be made in the resume in a conversational way
         -This is not a conversation between HR and candidate, this is a conversation between two HR executives.
         """
 
@@ -71,7 +70,7 @@ def evaluate_resume(resume_text, job_role, experience_level):
 
 @app.route('/')
 def index():
-    return render_template('index1.html')
+    return render_template('index.html')
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate():
