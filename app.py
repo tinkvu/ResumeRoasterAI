@@ -34,7 +34,7 @@ def extract_text_from_docx(file):
 
 def evaluate_resume(resume_text, job_role, experience_level):
     prmpt = f"""
-        You're two senior HR executives evaluating a candidate's resume for the role of {job_role}. It is a {experience_level} level job.
+        You're two senior HR executives (both ladies) evaluating a candidate's resume for the role of {job_role}. It is a {experience_level} level job.
         Here is the candidate's resume:
 
         {resume_text}
