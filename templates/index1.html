@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Add this in your <head> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <title>Resume or CV Roaster by Senior HR Executives AI</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="shortcut icon" href="/favicon.ico" />
@@ -410,10 +413,19 @@
     </form>
     <div id="loading" class="hidden">They have started talking about your resume 👀</div>
     <div id="result" class="hidden">
-      <h2>The HR conversation 👀</h2>
-      <div id="evaluation-chat"></div>
+  <h2>The HR conversation 👀</h2>
+  <div id="chat-download-wrapper" style="background: white; padding: 1rem; border-radius: 10px;">
+    <div id="evaluation-chat" style="color: black;"></div>
+    <div style="text-align: right; font-size: 0.8rem; color: #666; margin-top: 1rem;">
+      Made with <a href="https://cvroaster.com" target="_blank" style="color: #4CAF50;">cvroaster.com</a>
     </div>
   </div>
+  <button id="download-chat" class="submit-btn" style="margin-top: 1rem;">
+    <span class="btn-text">Download Roast</span>
+    <span class="btn-icon">💾</span>
+  </button>
+</div>
+
 
   <script>
     document.getElementById('try-now-btn').addEventListener('click', () => {
@@ -471,5 +483,17 @@
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
+    <script>
+  document.getElementById('download-chat').addEventListener('click', () => {
+    const chatWrapper = document.getElementById('chat-download-wrapper');
+    html2canvas(chatWrapper, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'cv_roast.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  });
+</script>
+
 </body>
 </html>
