@@ -325,6 +325,38 @@
       text-align: center;
       margin-top: 1rem;
     }
+    .review-slider {
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  margin: 2rem auto;
+  position: relative;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.reviews-track {
+  display: flex;
+  animation: scroll 15s infinite linear;
+  width: max-content;
+}
+
+.review {
+  min-width: 100%;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  background: #fff;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  33.33% { transform: translateX(-100%); }
+  66.66% { transform: translateX(-200%); }
+  100% { transform: translateX(0); }
+}
+
 
     @media (max-width: 768px) {
       .landing-content p {
@@ -366,10 +398,22 @@
           alt="RoastCV on Product Hunt" style="width: 200px; height: 54px;" />
       </a>
       <h2>Let's see what people are talking now😅</h2>
-      <div class="iframe-container">
-        <iframe src="https://cards.producthunt.com/cards/comments/4012306?v=1" allowfullscreen></iframe>
-        <iframe src="https://cards.producthunt.com/cards/reviews/888623?v=1" allowfullscreen></iframe>
-      </div>
+      <div class="review-slider">
+    <div class="reviews-track">
+    <div class="review">
+      <iframe src="https://cards.producthunt.com/cards/comments/4012306?v=1" allowfullscreen></iframe>
+    </div>
+    <div class="review">
+      <iframe src="https://cards.producthunt.com/cards/reviews/888623?v=1" allowfullscreen></iframe>
+    </div>
+<!--     <div class="review">"I came for the CV help, stayed for the burns." — Max</div> -->
+  </div>
+</div>
+
+<!--       <div class="iframe-container">
+        
+        
+      </div> -->
       <p>A lil fun project by <a href="https://www.linkedin.com/in/tinkvu">@tinkvu🤎</a></p>
     </div>
   </div>
